@@ -1,0 +1,241 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Telexistence API",
+    "version": "v1"
+  },
+  "paths": {
+    "/Command": {
+      "post": {
+        "tags": [
+          "Command"
+        ],
+        "summary": "Sends a command to control a robot (move, rotate, stop).",
+        "description": "Example request:<br />\r\n{<br />\r\n  \"robotId\": \"TX-010\",<br />\r\n  \"commandType\": \"Move\",<br />\r\n  \"axis\": \"Z\",<br />\r\n  \"distance\": 5<br />\r\n   user: \"test\"\r\n}",
+        "requestBody": {
+          "description": "Command to send",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RobotCommand"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RobotCommand"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RobotCommand"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Command accepted",
+            "content": {
+              "text/plain": {
+                "schema": { }
+              },
+              "application/json": {
+                "schema": { }
+              },
+              "text/json": {
+                "schema": { }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Command/{robotId}/history": {
+      "get": {
+        "tags": [
+          "Command"
+        ],
+        "summary": "Gets the command history for a specific robot.",
+        "parameters": [
+          {
+            "name": "robotId",
+            "in": "path",
+            "description": "Robot's unique ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RobotCommand"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RobotCommand"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RobotCommand"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Login": {
+      "post": {
+        "tags": [
+          "Login"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/Status/{robotId}": {
+      "get": {
+        "tags": [
+          "Status"
+        ],
+        "parameters": [
+          {
+            "name": "robotId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CommandType": {
+        "enum": [
+          "Move",
+          "Rotate",
+          "Stop"
+        ],
+        "type": "string"
+      },
+      "LoginRequest": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "nullable": true
+          },
+          "password": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RobotCommand": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique command identifier (set by server).",
+            "nullable": true
+          },
+          "robotId": {
+            "type": "string",
+            "description": "The robot's unique ID.",
+            "nullable": true
+          },
+          "commandType": {
+            "$ref": "#/components/schemas/CommandType"
+          },
+          "axis": {
+            "type": "string",
+            "description": "Axis to move on (X, Y, or Z). Only required for Move.",
+            "nullable": true
+          },
+          "distance": {
+            "type": "integer",
+            "description": "Distance to move along the axis. Positive/negative for direction.",
+            "format": "int32"
+          },
+          "rotateAngle": {
+            "type": "integer",
+            "description": "Angle to rotate, in degrees (e.g., 90 or -90). Only for Rotate.",
+            "format": "int32"
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "When the command was created.",
+            "format": "date-time"
+          },
+          "user": {
+            "type": "string",
+            "description": "When the command was created.",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Command sent to a robot (e.g., move/rotate/stop)."
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "apiKey",
+        "description": "Enter 'Bearer' followed by a space and your JWT.",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": [ ]
+    }
+  ]
+}
