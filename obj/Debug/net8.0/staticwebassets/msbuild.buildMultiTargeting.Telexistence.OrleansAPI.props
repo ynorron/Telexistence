@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\build\Telexistence.OrleansAPI.props" />
-</Project>
