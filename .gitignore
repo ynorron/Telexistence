@@ -93,3 +93,6 @@ appsettings.Local.json
 
 # Docker
 **/docker-compose.override.yml
+/bin/Debug/net8.0/appsettings.Development.json
+/obj/Debug/net8.0/Telexistence.OrleansAPI.AssemblyInfo.cs
+/obj/Debug/net8.0/Telexistence.OrleansAPI.AssemblyInfoInputs.cache
