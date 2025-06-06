@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Telexistence.OrleansAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+958b406ecb5b872cbd70a0d56626cdec22632179")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6b882088dd5878e88e20e63e39ccbc6a088708ad")]
 [assembly: System.Reflection.AssemblyProductAttribute("Telexistence.OrleansAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Telexistence.OrleansAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
