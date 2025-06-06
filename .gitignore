@@ -1,0 +1,95 @@
+# Build results
+bin/
+obj/
+out/
+publish/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+# Mono auto generated files
+mono_crash.*
+
+# OS generated files
+.DS_Store
+ehthumbs.db
+Icon?
+Thumbs.db
+Desktop.ini
+
+# Visual Studio Code
+.vscode/
+.history/
+
+# Visual Studio
+.vs/
+.vsscc
+*.vssscc
+*.vspscc
+*_i.c
+*_p.c
+*_h.h
+*.dbmdl
+*.bak
+*.backup
+*.log
+*.dmp
+*.mdf
+*.ldf
+*.ndf
+*.jfm
+*.ncb
+*.sdf
+*.opensdf
+*.cache
+*.db
+*.opendb
+
+# Rider
+.idea/
+*.sln.iml
+
+# DotCover
+*.dotCover
+
+# Test Results
+TestResults/
+TestOutput/
+
+# Web
+node_modules/
+bower_components/
+jspm_packages/
+
+# NuGet
+packages/
+*.nupkg
+.project.lock.json
+project.lock.json
+*.snupkg
+
+# Azure Pipeline
+artifacts/
+
+# Resharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# Dotnet watch
+**/obj/Debug/net*/.dotnet_watch_*
+
+# Others
+*.swp
+*.tmp
+
+# Local secrets (user-specific config)
+appsettings.Development.json
+appsettings.Local.json
+
+# Docker
+**/docker-compose.override.yml
