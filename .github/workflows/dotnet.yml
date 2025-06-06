@@ -23,7 +23,7 @@ jobs:
       run: dotnet restore Telexistence.OrleansAPI.sln
 
     - name: Build
-      run: dotnet build Telexistence.OrleansAPI.sln --no-restore --configuration Release
+      run: dotnet build Telexistence.OrleansAPI.sln --configuration Release
 
     - name: Test
-      run: dotnet test Telexistence.OrleansAPI.sln --no-build --verbosity normal
+      run: dotnet test Telexistence.OrleansAPI.sln --verbosity normal
