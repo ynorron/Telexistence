@@ -55,3 +55,11 @@ Configured via GitHub Actions:
 - Restores and builds on push to `main`
 - Runs unit tests
 - Future: extend with `az` CLI steps for auto-deployment
+
+## Work Breakdown
+- Read documents: 30mins 
+- Make test: 2 hours 
+- Implement: 4 hours 
+- Refactor: 1 hour
+- CI/CD: 1 hour
+- Research Orleans: 2+ hour
