@@ -16,7 +16,12 @@ namespace Telexistence.Controllers {
         [HttpPost]
         public IActionResult Login([FromBody] LoginRequest request) {
             if (request.Username == "admin" && request.Password == "password") {
-                var claims = new[] { new Claim(ClaimTypes.Name, request.Username) };
+                var claims = new[] 
+                { 
+                    new Claim(ClaimTypes.Name, request.Username  ),
+                    new Claim(ClaimTypes.Role, "Admin" )
+
+                };
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
                 var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
                 var token = new JwtSecurityToken(

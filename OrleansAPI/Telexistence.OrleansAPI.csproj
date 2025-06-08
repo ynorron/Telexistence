@@ -8,9 +8,12 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="7.0.3" />
-    <PackageReference Include="Microsoft.Orleans.Server" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Orleans.Streaming" Version="8.0.0" />
-    <PackageReference Include="Orleans.Providers.MongoDB" Version="9.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+
+    <PackageReference Include="Microsoft.Orleans.Persistence.Memory" Version="8.2.0" />
+    <PackageReference Include="Microsoft.Orleans.Server" Version="8.2.0" />
+    <PackageReference Include="Microsoft.Orleans.Streaming" Version="8.2.0" />
+    <PackageReference Include="Microsoft.Orleans.Streaming.AzureStorage" Version="8.2.0" />
+    <PackageReference Include="Orleans.Providers.MongoDB" Version="8.2.0" />
   </ItemGroup>
 </Project>

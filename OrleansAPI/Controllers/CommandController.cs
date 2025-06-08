@@ -35,7 +35,17 @@ namespace Telexistence.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(object), 200)]
         public async Task<IActionResult> Post([FromBody] RobotCommand command)
-            => Ok(await _commandService.SendCommandAsync(command));
+        {
+            if (command.CommandType == CommandType.Move && command.Axis == null)
+                return BadRequest(new { error = "Axis is required for Move commands." });
+            else if (command.CommandType == CommandType.Rotate && command.RotateAngle == null)
+                return BadRequest(new { error = "Axis is required for Move commands." });
+            if (!Enum.IsDefined(typeof(Axis), command.Axis))
+                return BadRequest(new { error = "Invalid axis value." });
+
+            var result = await _commandService.SendCommandAsync(command);
+            return Ok(result);
+        }
 
         /// <summary>
         /// Gets the command history for a specific robot.

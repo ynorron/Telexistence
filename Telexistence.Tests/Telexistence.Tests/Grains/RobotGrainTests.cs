@@ -23,7 +23,7 @@ namespace Telexistence.Tests.Grains
             {
                 RobotId = "TX-010",
                 CommandType = CommandType.Move,
-                Axis = "X",
+                Axis = Axis.X,
                 Distance = 5,
                 User = "tester"
             };
@@ -42,7 +42,7 @@ namespace Telexistence.Tests.Grains
             {
                 RobotId = "TX-011",
                 CommandType = CommandType.Move,
-                Axis = "Y",
+                Axis = Axis.Y,
                 Distance = 10,
                 User = "tester"
             };
@@ -59,7 +59,7 @@ namespace Telexistence.Tests.Grains
             {
                 RobotId = "TX-012",
                 CommandType = CommandType.Move,
-                Axis = "Z",
+                Axis = Axis.Z,
                 Distance = -3,
                 User = "tester"
             };
@@ -110,7 +110,7 @@ namespace Telexistence.Tests.Grains
             {
                 RobotId = "TX-030",
                 CommandType = CommandType.Move,
-                Axis = "Y",
+                Axis = Axis.Y,
                 Distance = 7,
                 User = "tester"
             };
@@ -136,7 +136,7 @@ namespace Telexistence.Tests.Grains
             {
                 RobotId = "TX-040",
                 CommandType = CommandType.Move,
-                Axis = "Q", // unknown axis
+                Axis = (Axis)(-1), // Assigning an invalid axis value explicitly  
                 Distance = 10,
                 User = "tester"
             };

@@ -4,26 +4,32 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 using Telexistence.OrleansAPI.Interfaces;
 using Telexistence.Repositories;
+using Orleans.Hosting;
+using Orleans.Providers.Streams.AzureQueue;
+using Telexistence.OrleansAPI.Hubs;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
-}); ;
+});
 
 builder.Services.AddSingleton<ICommandRepository, MongoCommandRepository>();
 builder.Services.AddScoped<ICommandService, CommandService>();
 
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer("Bearer", options => {
-        options.TokenValidationParameters = new TokenValidationParameters {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
             ValidateIssuer = true,
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
             ValidIssuer = builder.Configuration["Jwt:Issuer"],
             ValidAudience = builder.Configuration["Jwt:Audience"],
+            RoleClaimType = ClaimTypes.Role,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
         };
     });
@@ -35,7 +41,8 @@ builder.Services.AddSwaggerGen(options => {
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
     options.IncludeXmlComments(xmlPath, includeControllerXmlComments: true);
     options.SwaggerDoc("v1", new OpenApiInfo { Title = "Telexistence API", Version = "v1" });
-    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme {
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
         Name = "Authorization",
         Type = SecuritySchemeType.ApiKey,
         Scheme = "Bearer",
@@ -56,17 +63,18 @@ builder.Services.AddSwaggerGen(options => {
     });
 });
 
-builder.Host.UseOrleans(silo => {
-    silo.UseLocalhostClustering();
-    silo.AddMemoryGrainStorage("Default"); // Local dev only
-    // For MongoDB: silo.AddMongoDBGrainStorage("Default", ...); // for production
+builder.UseOrleans(siloBuilder =>
+{
+    siloBuilder.UseLocalhostClustering();
+    siloBuilder.AddMemoryGrainStorage("Default");
+    siloBuilder.AddMemoryGrainStorage("RobotStream");    
+    siloBuilder.AddMemoryStreams("RobotStream");
 });
 
-
-
-
+builder.Services.AddSignalR();
 var app = builder.Build();
 
+app.MapHub<RobotControlHub>("/robotControlHub");
 app.UseSwagger();
 app.UseSwaggerUI();
 

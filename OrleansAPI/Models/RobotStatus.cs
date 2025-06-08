@@ -1,3 +1,7 @@
+
+/// <summary>
+/// The robot's current position, task, and operating status.
+/// </summary>
 [GenerateSerializer]
 public class RobotStatus
 {
@@ -8,4 +12,5 @@ public class RobotStatus
     [Id(4)] public int Rotation { get; set; } = 0; // degrees
     [Id(5)] public string Task { get; set; } = "Idle";
     [Id(6)] public string Status { get; set; } = "Ready";
+    [Id(7)] public DateTime LastUpdate { get; set; } = DateTime.UtcNow;
 }

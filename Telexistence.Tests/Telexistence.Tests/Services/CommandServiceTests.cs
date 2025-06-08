@@ -27,7 +27,7 @@ namespace Telexistence.Tests.Services
             {
                 RobotId = "TX-010",
                 CommandType = CommandType.Move,
-                Axis = "X",
+                Axis = Axis.X,
                 Distance = 5,
                 User = "tester"
             };

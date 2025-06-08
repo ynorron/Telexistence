@@ -27,7 +27,7 @@ namespace Telexistence.Models
 
         /// <summary>Axis to move on (X, Y, or Z). Only required for Move.</summary>
         [Id(3)]
-        public string Axis { get; set; } = "X";
+        public Axis Axis { get; set; }
 
         /// <summary>Distance to move along the axis. Positive/negative for direction.</summary>
         [Id(4)]
@@ -46,6 +46,11 @@ namespace Telexistence.Models
         required
         public string User { get; set; } = string.Empty;
     }
-
+    public enum Axis
+    {
+        X,
+        Y,
+        Z
+    }
 
 }
