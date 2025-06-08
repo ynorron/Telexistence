@@ -1,12 +1,6 @@
-using Orleans;
-using Orleans.Runtime;
 using Orleans.Streams;
-using Telexistence.Models;
 using Telexistence.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
+using Telexistence.Models;
 
 namespace Telexistence.Grains
 {
@@ -36,13 +30,13 @@ namespace Telexistence.Grains
         private DateTime _lastVRHeartbeat = DateTime.MinValue;
 
         // If a VR command was received within this timeout, reject manual commands
-        private readonly TimeSpan _vrTimeout = TimeSpan.FromSeconds(3);
+        private readonly TimeSpan _vrTimeout = TimeSpan.FromSeconds(10);
 
         /// <summary>
         /// Constructor for RobotGrain. Injects persistent state and stream provider.
         /// </summary>
         public RobotGrain(
-            [PersistentState("robotState", "Default")] IPersistentState<RobotStatus> status,
+            [PersistentState("robotState", "Mongo")] IPersistentState<RobotStatus> status,
             [FromKeyedServices("RobotStream")] IStreamProvider streamProvider)
         {
             _status = status;
@@ -106,6 +100,9 @@ namespace Telexistence.Grains
         /// </summary>
         public async Task OnNextAsync(GranularRobotCommand cmd, StreamSequenceToken? token = null)
         {
+            bool updateMongoStatus = false;
+            if (!_status.State.Task.Contains("Stream")) updateMongoStatus = true; // if the stream is active, update status only once
+
             _lastVRHeartbeat = DateTime.UtcNow;
             _recentStreamCommands.Enqueue(cmd);
             if (_recentStreamCommands.Count > StreamCommandHistoryLimit)
@@ -118,13 +115,20 @@ namespace Telexistence.Grains
             _status.State.Task = "VR Streaming";
             _status.State.Status = "VR Moving";
             _status.State.LastUpdate = DateTime.UtcNow;
+
+            if(updateMongoStatus) await _status.WriteStateAsync();
             await PublishStatusAsync();
         }
 
         /// <summary>
         /// Handles stream completion notification (no-op).
         /// </summary>
-        public Task OnCompletedAsync() => Task.CompletedTask;
+        public async Task OnCompletedAsync()
+        {
+            // Save the recent stream commands to state
+            _status.State.RecentStreamCommands = _recentStreamCommands.ToList();
+            await _status.WriteStateAsync();
+        }
 
         /// <summary>
         /// Handles stream error notification (no-op).
