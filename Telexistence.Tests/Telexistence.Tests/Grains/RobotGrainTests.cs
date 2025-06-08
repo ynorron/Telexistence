@@ -30,7 +30,7 @@ namespace Telexistence.Tests.Grains
             await grain.ExecuteCommand(command);
             var status = await grain.GetStatus();
             Assert.Equal(5, status.X);
-            Assert.Equal("Moving X", status.Task);
+            Assert.Equal("Moving X axis", status.Task);
             Assert.Equal("Moving", status.Status);
         }
 
@@ -82,7 +82,7 @@ namespace Telexistence.Tests.Grains
             await grain.ExecuteCommand(command);
             var status = await grain.GetStatus();
             Assert.Equal(0, status.Rotation);
-            Assert.Equal("Rotating", status.Task);
+            Assert.Equal($"Rotating {command.RotateAngle} degrees", status.Task);
             Assert.Equal("Rotating", status.Status);
         }
 
@@ -171,8 +171,9 @@ namespace Telexistence.Tests.Grains
         {
             public void Configure(ISiloBuilder siloBuilder)
             {
-                // Register in-memory storage with the name "Default"
                 siloBuilder.AddMemoryGrainStorage("Default");
+                siloBuilder.AddMemoryStreams("RobotStream");
+                siloBuilder.AddMemoryGrainStorage("RobotStream");
             }
         }
     }
