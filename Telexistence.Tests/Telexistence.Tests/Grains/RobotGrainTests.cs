@@ -171,7 +171,7 @@ namespace Telexistence.Tests.Grains
         {
             public void Configure(ISiloBuilder siloBuilder)
             {
-                siloBuilder.AddMemoryGrainStorage("Default");
+                siloBuilder.AddMemoryGrainStorage("Mongo");
                 siloBuilder.AddMemoryStreams("RobotStream");
                 siloBuilder.AddMemoryGrainStorage("RobotStream");
             }
