@@ -3,7 +3,6 @@ version: '3.4'
 services:
   mongo:
     image: mongo
-    container_name: telexistence-mongo
     ports:
       - "27017:27017"
     volumes:
@@ -13,7 +12,6 @@ services:
 
   api:
     build: .
-    container_name: telexistence-api
     ports:
       - "5000:5000"
     environment:

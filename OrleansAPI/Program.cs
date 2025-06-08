@@ -11,14 +11,13 @@ using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddHealthChecks();
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
 });
-
 builder.Services.AddSingleton<ICommandRepository, MongoCommandRepository>();
 builder.Services.AddScoped<ICommandService, CommandService>();
-
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer("Bearer", options => {
         options.TokenValidationParameters = new TokenValidationParameters
@@ -35,7 +34,6 @@ builder.Services.AddAuthentication("Bearer")
     });
 
 builder.Services.AddAuthorization();
-
 builder.Services.AddSwaggerGen(options => {
     var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
@@ -72,17 +70,15 @@ builder.UseOrleans(siloBuilder =>
 });
 
 builder.Services.AddSignalR();
-var app = builder.Build();
 
+var app = builder.Build();
+app.MapHealthChecks("/healthz");
 app.MapHub<RobotControlHub>("/robotControlHub");
 app.UseSwagger();
 app.UseSwaggerUI();
-
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.UseExceptionHandler(errorApp =>
 {
     errorApp.Run(async context =>
