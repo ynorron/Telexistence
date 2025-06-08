@@ -21,7 +21,7 @@ This project implements a scalable backend for remote robot control and monitori
 ---
 
 ## Run Locally
-
+- cd into \Telexistence\OrleansAPI>
 ```bash
 docker-compose up --build
 ```
