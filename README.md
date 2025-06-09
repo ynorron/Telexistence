@@ -81,6 +81,17 @@ Clients (VR, browser, desktop, Unity, etc.) should use SignalR for low-latency, 
         })
         .Build();
       await connection.StartAsync();
+      var command = new GranularRobotCommand
+      {
+          X = 1.0,
+          Y = 2.0,
+          Z = 3.0,
+          Rotation = 45.0,
+          Timestamp = DateTime.UtcNow
+      };
+      
+      await connection.InvokeAsync("SendCommand", "robot-id-here", command);
+      await connection.StopAsync();
       ```
 
     - The server will validate the JWT and allow connection if valid.
