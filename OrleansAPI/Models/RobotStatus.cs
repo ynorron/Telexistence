@@ -1,4 +1,6 @@
 
+using Telexistence.Models;
+
 /// <summary>
 /// The robot's current position, task, and operating status.
 /// </summary>
@@ -13,4 +15,6 @@ public class RobotStatus
     [Id(5)] public string Task { get; set; } = "Idle";
     [Id(6)] public string Status { get; set; } = "Ready";
     [Id(7)] public DateTime LastUpdate { get; set; } = DateTime.UtcNow;
+    [Id(8)] public List<GranularRobotCommand> RecentStreamCommands { get; set; } = new();
+
 }

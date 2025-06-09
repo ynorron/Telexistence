@@ -1,13 +1,11 @@
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Security.Claims;
 using System.Text;
+using Telexistence.OrleansAPI.Hubs;
 using Telexistence.OrleansAPI.Interfaces;
 using Telexistence.Repositories;
-using Orleans.Hosting;
-using Orleans.Providers.Streams.AzureQueue;
-using Telexistence.OrleansAPI.Hubs;
-using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +14,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
 });
+
 builder.Services.AddSingleton<ICommandRepository, MongoCommandRepository>();
 builder.Services.AddScoped<ICommandService, CommandService>();
 builder.Services.AddAuthentication("Bearer")
@@ -60,12 +59,16 @@ builder.Services.AddSwaggerGen(options => {
         }
     });
 });
-
 builder.UseOrleans(siloBuilder =>
 {
     siloBuilder.UseLocalhostClustering();
-    siloBuilder.AddMemoryGrainStorage("Default");
-    siloBuilder.AddMemoryGrainStorage("RobotStream");    
+    siloBuilder.UseMongoDBClient(builder.Configuration["Mongo:ConnectionString"]); 
+    siloBuilder.AddMongoDBGrainStorage("Mongo", options =>
+    {
+        options.DatabaseName = "telexistence";
+        // options.CreateShardKeyForCosmos = false; // optional, for CosmosDB
+    });
+    siloBuilder.AddMemoryGrainStorage("RobotStream");
     siloBuilder.AddMemoryStreams("RobotStream");
 });
 

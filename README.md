@@ -139,12 +139,12 @@ Automated via GitHub Actions:
 |---------------------|------------------|
 | Read docs           | 30 mins          |
 | Write tests         | 2 hours          |
-| Implement features  | 4 hours          |
+| Implement features  | 4+ hours          |
 | Refactor            | 1 hour           |
 | CI/CD setup         | 1 hour           |
 | Orleans research    | 2+ hours         |
 | SignalR Stream      | 1-2 hours        |
-| Testing             | 2+ hours         |
+| Testing/debugging   | 3+ hours         |
 
 ---
 
