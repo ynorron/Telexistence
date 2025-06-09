@@ -57,7 +57,7 @@ Use the returned token as a **Bearer token** in all subsequent API and SignalR c
 
 Clients (VR, browser, desktop, Unity, etc.) should use SignalR for low-latency, bi-directional command streaming.
 
-## How the Client Authenticates and Connects to SignalR
+## How the Client Authenticates and Connects to SignalR - Implementation of Streaming client is not included in the project.
 
 1. **Obtain a JWT** from `/login` as described above.
 2. **Connect to SignalR**:
@@ -110,7 +110,7 @@ This follows ASP.NET Core conventions for clarity and maintainability.
 Azure Container Apps are used for production deployment:
 
 - Fully managed, scalable runtime (KEDA)
-- Native Docker image and Dapr support
+- Native Docker image  support
 - Simple integration with Azure Container Registry
 
 **To deploy:**
